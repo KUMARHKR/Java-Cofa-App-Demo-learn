@@ -2,6 +2,8 @@ package com.example.justjava;
 
 import android.annotation.SuppressLint;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -70,17 +72,35 @@ public class MainActivity extends AppCompatActivity {
         int priceView = calculatePrice(hasChocolate ,hasWhipcream );
 
         String priceMassage = createOrderSummary(nameText,priceView,hasChocolate,hasWhipcream);
+//send email tool
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("*/*");
+        intent.putExtra(Intent.EXTRA_LOCUS_ID, "kdas08546@gmail.com");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Cafa Order in just java app" + priceView);
+        intent.putExtra(Intent.EXTRA_TEXT, priceMassage);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+
         displayMessage(priceMassage);
+
+//        e-mail intent ----
+//                <activity >
+//            <intent-filter>
+//                <action android:name="android.intent.action.SEND" />
+//                <data android:type="*/*" />
+//                <category android:name="android.intent.category.DEFAULT" />
+//            </intent-filter>
+//            <intent-filter>
+//                <action android:name="android.intent.action.SENDTO" />
+//                <data android:scheme="mailto" />
+//                <category android:name="android.intent.category.DEFAULT" />
+//            </intent-filter>
+//        </activity>
+
     }
 
-//    int numberOfSmoothiesTillPrize = 10;
-//if (numberOfSmoothiesTillPrize > 9) {
-//        Log.v("SmoothieActivity", "Congratulations, you get a free smoothie!");
-//        numberOfSmoothiesTillPrize = numberOfSmoothiesTillPrize - 10;
-//    } else {
-//        Log.v("SmoothieActivity", "No free smoothie this time.");
-//    }
-//Log.v("SmoothieActivity", "You currently have " + numberOfSmoothiesTillPrize + " out of 10 smoothies needed for your next free smoothie.");
+
 
 
 
@@ -109,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
 
         return priceMassage;
     }
+
+
 
 
     /**
